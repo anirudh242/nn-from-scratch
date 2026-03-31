@@ -7,9 +7,13 @@ int main() {
     V b = val(3.0);
     V c = a + b;
     V d = c + 5;
+    V e = d * 2;
+    V f = e * d;
 
     for (auto i : c->prev) cout << i << endl;
     cout << d << endl;
+    cout << e << endl;
+    cout << f << endl; 
 
     return 0;
 }

@@ -11,6 +11,7 @@ int main() {
     V e = d * 2; e->label = "e";
     V f = e * d; f->label = "f";
 
+    backward(f);
     draw_dot(f);
 
     for (auto i : c->prev) cout << i << endl;

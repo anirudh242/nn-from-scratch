@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <set>
+#include <algorithm>
 
 class Value;
 using V = std::shared_ptr<Value>;
@@ -17,7 +19,7 @@ class Value {
         std::string op;
 
         std::function<void()> _backward;
-        
+
         Value(double data, std::string label);
         friend std::ostream& operator<<(std::ostream& os, const V& v);
 };
@@ -35,3 +37,5 @@ V operator+(double a, V b);
 V operator*(V a, V b);
 V operator*(V a, double b);
 V operator*(double a, V b);
+
+void backward(V self);

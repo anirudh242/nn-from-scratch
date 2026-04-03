@@ -1,6 +1,8 @@
 #include "Value.hpp"
 
-Value::Value(double data, std::string label) : data(data), label(label), grad(0.0) {}
+Value::Value(double data, std::string label) : data(data), label(label), grad(0.0) {
+    _backward = [](){}; // for leaf node with no local gradient function
+}
 
 std::ostream& operator<<(std::ostream& os, const V& v) {
     os << "Value(data=" << v->data << ", grad=" << v->grad << ")";
@@ -13,7 +15,7 @@ V operator+(V a, V b) {
     out->prev = {a, b};
     out->op = "+";
 
-    std::function<void()> _backward = [&] {
+    std::function<void()> _backward = [a, b, out] {
         a->grad += out->grad;
         b->grad += out->grad;
     };
@@ -53,4 +55,27 @@ V operator*(V a, double b) {
 
 V operator*(double a, V b) {
     return val(a) * b;
+}
+
+void build_topo(V v, std::vector<V>& topo, std::set<Value*>& visited) {
+    if (!visited.count(v.get())) {
+        visited.insert(v.get());
+        for (V child : v->prev) {
+            if (!child) continue; 
+            build_topo(child, topo, visited);
+        }
+        topo.push_back(v);
+    }
+}
+
+void backward(V self) {
+    std::vector<V> topo;
+    std::set<Value*> visited;
+    self->grad = 1.0;
+    build_topo(self, topo, visited);
+
+    reverse(topo.begin(), topo.end());
+    for (V node : topo) {
+        if (node->_backward) node->_backward();
+    }
 }

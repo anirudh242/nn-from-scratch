@@ -6,6 +6,7 @@
 #include <functional>
 #include <set>
 #include <algorithm>
+#include <cmath>
 
 class Value;
 using V = std::shared_ptr<Value>;
@@ -39,3 +40,6 @@ V operator*(V a, double b);
 V operator*(double a, V b);
 
 void backward(V self);
+
+V relu(V x);
+V tanh(V x);

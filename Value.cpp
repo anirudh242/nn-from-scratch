@@ -57,6 +57,7 @@ V operator*(double a, V b) {
     return val(a) * b;
 }
 
+// backpropogation
 void build_topo(V v, std::vector<V>& topo, std::set<Value*>& visited) {
     if (!visited.count(v.get())) {
         visited.insert(v.get());
@@ -78,4 +79,29 @@ void backward(V self) {
     for (V node : topo) {
         if (node->_backward) node->_backward();
     }
+}
+
+// activation functions
+V relu(V x) {
+    V out = val(std::max(0.0, x->data));
+    out->prev = {x};
+    out->op = "ReLU";
+
+    out->_backward = [x, out]() {
+        x->grad += (x->data > 0.0 ? 1.0 : 0.0) * out->grad;
+    };
+
+    return out;
+}
+
+V tanh(V x) {
+    V out = val(std::tanh(x->data));
+    out->prev = {x};
+    out->op = "tanx";
+
+    out->_backward = [x, out]() {
+        x->grad = (1-out->data*out->data)*out->grad;
+    };
+
+    return out;
 }

@@ -57,6 +57,32 @@ V operator*(double a, V b) {
     return val(a) * b;
 }
 
+V operator-(V a) {
+    V out = val(-a->data);
+
+    out->prev = {a};
+    out->op = "neg";
+
+    out->_backward = [a, out]() {
+        a->grad += -1.0 * out->grad;
+    };
+
+    return out;
+}
+
+V operator-(V a, V b) {
+    return a + (-b);
+}
+
+V operator-(V a, double b) {
+    return a - val(b);
+}
+
+V operator-(double a, V b) {
+    return val(a) - b;
+}
+
+
 // backpropogation
 void build_topo(V v, std::vector<V>& topo, std::set<Value*>& visited) {
     if (!visited.count(v.get())) {

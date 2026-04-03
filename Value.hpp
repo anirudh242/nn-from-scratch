@@ -34,6 +34,12 @@ V operator+(V a, V b);
 V operator+(V a, double b);
 V operator+(double a, V b);
 
+// subtraction
+V operator-(V a);
+V operator-(V a, V b);
+V operator-(V a, double b);
+V operator-(double a, V b);
+
 // multiplication
 V operator*(V a, V b);
 V operator*(V a, double b);

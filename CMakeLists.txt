@@ -9,6 +9,9 @@ add_executable(main
     main.cpp
     Value.cpp
     graph.cpp
+    Neuron.cpp
+    Layer.cpp
+    MLP.cpp
 )
 
 add_custom_target(run

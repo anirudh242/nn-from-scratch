@@ -1,8 +1,8 @@
 #include "Layer.hpp"
 
-Layer::Layer(int nin, int nout) {
+Layer::Layer(int nin, int nout, Activation act) {
     for (int i = 0; i < nout; i++) {
-        this->neurons.push_back(Neuron(nin));
+        this->neurons.push_back(Neuron(nin, act));
     }
 }
 

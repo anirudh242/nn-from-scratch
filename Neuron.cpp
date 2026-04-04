@@ -1,7 +1,7 @@
 #include "Neuron.hpp"
 #include <random>
 
-Neuron::Neuron(int nin) {
+Neuron::Neuron(int nin, Activation act) : act(act) {
     static std::mt19937 gen(std::random_device{}());
     static std::uniform_real_distribution<double> rands(-1, 1);
 
@@ -12,13 +12,22 @@ Neuron::Neuron(int nin) {
 }
 
 V Neuron::operator()(std::vector<V> x) {
-    V activation = b;
+    V out = b;
 
     for (int i = 0; i < w.size(); i++) {
-        activation = activation + w[i] * x[i]; // y = xiwi + b
+        out = out + w[i] * x[i]; // y = xiwi + b
     }
-    
-    return tanh(activation);
+   
+    switch (act) {
+        case Activation::TANH:
+            return tanh(out) ;
+        case Activation::RELU:
+            return relu(out);
+        case Activation::NONE:
+            return out;
+        default:
+            return out;
+    }
 }
 
 

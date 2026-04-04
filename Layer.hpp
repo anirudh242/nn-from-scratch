@@ -5,7 +5,7 @@
 class Layer {
     public:
         std::vector<Neuron> neurons;
-        Layer(int nins, int nout);
+        Layer(int nins, int nout, Activation act);
 
         std::vector<V> operator()(std::vector<V> x);
         

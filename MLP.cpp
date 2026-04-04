@@ -1,12 +1,14 @@
 #include "MLP.hpp"
 #include <vector>
 
-MLP::MLP(int nin, std::vector<int> nouts) {
+MLP::MLP(int nin, std::vector<int> nouts, Activation hidden_act) {
     this->layerSizes = {nin};
     this->layerSizes.insert(layerSizes.end(), nouts.begin(), nouts.end());
 
     for (int i = 0; i < layerSizes.size() - 1; i++) {
-        layers.push_back(Layer(layerSizes[i], layerSizes[i+1]));
+        bool isLast = (i == layerSizes.size() - 2);
+        Activation act = isLast ? Activation::NONE : hidden_act;
+        layers.push_back(Layer(layerSizes[i], layerSizes[i+1], act));
     }
 }
 

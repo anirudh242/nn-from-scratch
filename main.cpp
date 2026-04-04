@@ -33,7 +33,7 @@ int main() {
     // backward(y);
     // draw_dot(y);
 
-    MLP model(2, {4, 4, 1});
+    MLP model(2, {4, 4, 1}, Activation::TANH);
 
     // std::vector<std::vector<double>> xs = {
     //     {2.0, 3.0},
@@ -52,7 +52,7 @@ int main() {
 
     std::vector<double> ys = {0, 1, 1, 0};
 
-    double lr = 0.05;
+    double lr = 0.01;
 
     for (int e = 0; e < 500; e++) {
         std::vector<V> ypred;

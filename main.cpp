@@ -2,6 +2,7 @@
 #include "Value.hpp"
 #include "graph.hpp"
 #include "MLP.hpp"
+#include "trainer.hpp"
 
 int main() {
     // V a = val(2.0, "a");
@@ -33,8 +34,6 @@ int main() {
     // backward(y);
     // draw_dot(y);
 
-    MLP model(2, {4, 4, 1}, Activation::TANH);
-
     // std::vector<std::vector<double>> xs = {
     //     {2.0, 3.0},
     //     {3.0, -1.0},
@@ -42,6 +41,8 @@ int main() {
     //     {1.0, 1.0}
     // };
     // std::vector<double> ys = {1.0, -1.0, -1.0, 1.0};
+
+    MLP model(2, {4, 4, 1}, Activation::TANH);
 
     std::vector<std::vector<double>> xs = {
         {0,0},
@@ -52,51 +53,14 @@ int main() {
 
     std::vector<double> ys = {0, 1, 1, 0};
 
-    double lr = 0.01;
+    train(model, xs, ys, 500, 0.01);
 
-    for (int e = 0; e < 500; e++) {
-        std::vector<V> ypred;
-        for (std::vector<double>& x : xs) {
-            std::vector<V> vx;
-            for (double xi : x) {
-                vx.push_back(val(xi));
-            }
-            V pred = model(vx)[0];
-            ypred.push_back(pred);
-        }
-
-        V loss = val(0.0);
-        for (int i = 0; i < ypred.size(); i++) {
-            V diff = ypred[i] - val(ys[i]);
-            loss = loss + diff * diff;
-        }
-
-        for (auto p : model.parameters()) {
-            p->grad = 0;
-        }
-
-        backward(loss);
-
-        for (auto p : model.parameters()) {
-            p->data -= lr * p->grad;
-        }
-
-        if (e == 99) draw_dot(loss);
-
-        std::cout << "epoch " << e << " loss = " << loss->data << std::endl;
-    }
+    std::vector<double> predictions = predict(model, xs);
 
     std::cout << "Model predictions: " << std::endl;
-    for (auto& x : xs) {
-        std::vector<V> vx;
-        for (double xi : x) {
-            vx.push_back(val(xi));
-        }
-
-        V pred = model(vx)[0];
-        std::cout << pred->data << std::endl;
+    for (double p : predictions) {
+        std::cout << p << std::endl;
     }
-
 
     return 0;
 }

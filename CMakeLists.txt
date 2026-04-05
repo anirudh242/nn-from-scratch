@@ -12,6 +12,7 @@ add_executable(main
     Neuron.cpp
     Layer.cpp
     MLP.cpp
+    trainer.cpp
 )
 
 add_custom_target(run

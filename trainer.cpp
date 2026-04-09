@@ -22,10 +22,7 @@ void train(MLP& model, std::vector<std::vector<double>>& xs, std::vector<double>
             loss = loss + diff * diff;
         }
 
-        for (auto p : model.parameters()) {
-            p->grad = 0.0; // .zero_grad() 
-            // todo: implement zerograd + sdg?
-        }
+        model.zeroGrad(); 
 
         backward(loss);
 

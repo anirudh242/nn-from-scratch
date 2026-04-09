@@ -10,4 +10,6 @@ class Layer {
         std::vector<V> operator()(std::vector<V> x);
         
         std::vector<V> parameters();
+
+        void zeroGrad();
 };

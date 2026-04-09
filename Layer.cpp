@@ -26,3 +26,8 @@ std::vector<V> Layer::parameters() {
     return params;
 }
 
+void Layer::zeroGrad() {
+    for (Neuron& neuron : this->neurons) {
+        neuron.zeroGrad();
+    }
+}

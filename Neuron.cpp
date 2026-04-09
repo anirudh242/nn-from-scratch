@@ -38,3 +38,9 @@ std::vector<V> Neuron::parameters() {
     return params;
 }
 
+void Neuron::zeroGrad() {
+    for (V& wi : w) {
+        wi->grad = 0.0;
+    }
+    b->grad = 0.0;
+}

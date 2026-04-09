@@ -29,3 +29,9 @@ std::vector<V> MLP::parameters() {
     }
     return params;
 }
+
+void MLP::zeroGrad() {
+    for (Layer& layer : this->layers) {
+        layer.zeroGrad();
+    }
+}

@@ -12,4 +12,6 @@ class MLP {
         std::vector<V> operator()(std::vector<V> x);
 
         std::vector<V> parameters();
+
+        void zeroGrad();
 };

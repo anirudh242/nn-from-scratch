@@ -13,6 +13,7 @@ add_executable(main
     Layer.cpp
     MLP.cpp
     trainer.cpp
+    Tensor.cpp
 )
 
 add_custom_target(run

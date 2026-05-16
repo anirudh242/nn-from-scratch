@@ -3,18 +3,19 @@
 #include "Tensor.hpp"
 
 int main() {
-    Tensor t({2, 3, 4}); 
+    Tensor b({3});
+    b.at({0}) = 1.1;
+    b.at({1}) = 2.2;
+    b.at({2}) = 3.3;
 
-    std::cout << "Strides calculated as: {" 
-              << t.strides[0] << ", " 
-              << t.strides[1] << ", " 
-              << t.strides[2] << "}\n";
+    Tensor B_matrix = b.broadcastTo({4, 3});
 
-    t.at({1, 2, 3}) = 99.9;
+    std::cout << "Broadcasted Strides: {" 
+              << B_matrix.strides[0] << ", " 
+              << B_matrix.strides[1] << "}\n";
 
-    std::cout << "Value at {1, 2, 3}: " << t.at({1, 2, 3}) << "\n";
-
-    std::cout << "Value at flat memory index 23: " << t.data[23] << "\n";
+    std::cout << "Row 0, Col 1: " << B_matrix.at({0, 1}) << "\n";
+    std::cout << "Row 3, Col 1: " << B_matrix.at({3, 1}) << "\n";
 
     return 0;
 }

@@ -19,6 +19,6 @@ add_executable(main
 add_custom_target(run
     COMMAND main
     COMMAND dot -Tpng graph.dot -o graph.png
-    COMMAND xdg-open graph.png
+    # COMMAND xdg-open graph.png
     DEPENDS main
 )
